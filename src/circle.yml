@@ -1,4 +1,11 @@
+override:
+- mvn --fail-never dependency:go-offline || true
+- docker info
+
 test:
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+override:
+- mvn install -s settings.xml
+post:
+- mkdir -p $CIRCLE_TEST_REPORTS/junit/
+- find . -type f -regex "./target/surefire-reports/.xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
